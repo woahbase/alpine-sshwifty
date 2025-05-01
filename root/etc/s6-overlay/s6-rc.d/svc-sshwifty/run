@@ -1,0 +1,10 @@
+#!/usr/bin/with-contenv bash
+set -e
+
+SSHWIFTY_CONFIG="${SSHWIFTY_CONFIG:-/config/sshwifty.conf.json}"
+# SSHWIFTY_ARGS="${SSHWIFTY_ARGS:- }";
+cd $(dirname ${SSHWIFTY_CONFIG}) || exit 1;
+
+s6-setuidgid ${S6_USER:-alpine} \
+exec \
+    sshwifty ${SSHWIFTY_ARGS};

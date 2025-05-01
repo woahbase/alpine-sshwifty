@@ -1,0 +1,31 @@
+#!/usr/bin/with-contenv bash
+set -e
+
+SSHWIFTY_CONFIG="${SSHWIFTY_CONFIG:-/config/sshwifty.conf.json}"
+
+mkdir -p \
+    $(dirname $SSHWIFTY_CONFIG) \
+    ;
+
+# function to substitute paths in config files
+_subst () {
+    sed \
+    -e "s|WEB_ACCESS_PASSWORD|${SSHWIFTY_SHAREDKEY:-insecurebydefault}|g" \
+    -e "s|INTERFACE|${SSHWIFTY_LISTENINTERFACE:-0.0.0.0}|g" \
+    -e "s|PORT|${SSHWIFTY_LISTENPORT:-8182}|g" \
+    -e "s|SERVERMESSAGE|${SSHWIFTY_SERVERMESSAGE}|g" \
+    $1 > $2;
+}
+
+# ensure conf.json exists
+if [ ! -f "${SSHWIFTY_CONFIG}" ];
+then
+    _subst /defaults/sshwifty.conf.example.json ${SSHWIFTY_CONFIG};
+fi;
+
+# fix permissions
+chown ${S6_USER:-alpine}:${PGID:-1000} \
+    $(dirname ${SSHWIFTY_CONFIG}) \
+    ${SSHWIFTY_CONFIG} \
+    ;
+chmod 600 ${SSHWIFTY_CONFIG};
