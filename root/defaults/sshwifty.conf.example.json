@@ -5,6 +5,10 @@
   "Socks5": "",
   "Socks5User": "",
   "Socks5Password": "",
+  "Hooks": {
+    "before_connecting": []
+  },
+  "HookTimeout": 30,
   "Servers": [
     {
       "ListenInterface": "INTERFACE",
@@ -25,6 +29,7 @@
       "Title": "SDF.org Unix Shell",
       "Type": "SSH",
       "Host": "sdf.org:22",
+      "TabColor": "112233",
       "Meta": {
         "Encoding": "utf-8",
         "Authentication": "Password"
