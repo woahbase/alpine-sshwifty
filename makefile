@@ -105,6 +105,7 @@ OTHERFLAGS := \
 	-m 256m \
 	-e PGID=$(PGID) \
 	-e PUID=$(PUID) \
+	# -e SSHWIFTY_CONFIG=/config/sshwifty.conf.json
 	# -e SSHWIFTY_SHAREDKEY=insecurebydefault \
 	# -e SSHWIFTY_LISTENINTERFACE=0.0.0.0 \
 	# -e SSHWIFTY_LISTENPORT=8182 \

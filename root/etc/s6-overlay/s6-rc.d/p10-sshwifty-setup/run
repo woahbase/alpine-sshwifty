@@ -1,6 +1,8 @@
 #!/usr/bin/with-contenv bash
 set -e
 
+vecho () { if [ "${S6_VERBOSITY:-1}" -gt 0  ]; then echo "[$0] $@"; fi; }
+
 SSHWIFTY_CONFIG="${SSHWIFTY_CONFIG:-/config/sshwifty.conf.json}"
 
 mkdir -p \
