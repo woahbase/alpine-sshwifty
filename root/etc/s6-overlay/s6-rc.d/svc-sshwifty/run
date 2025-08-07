@@ -1,10 +1,12 @@
 #!/usr/bin/with-contenv bash
 set -e
 
+usercmd () { if [ "X${EUID}" != "X0" ]; then ${1} "${@:2}"; else s6-setuidgid ${PUID:-1000}:${PGID:-1000} ${1} "${@:2}"; fi; }
+
 SSHWIFTY_CONFIG="${SSHWIFTY_CONFIG:-/config/sshwifty.conf.json}"
 # SSHWIFTY_ARGS="${SSHWIFTY_ARGS:- }";
 cd $(dirname ${SSHWIFTY_CONFIG}) || exit 1;
 
-s6-setuidgid ${S6_USER:-alpine} \
+usercmd \
 exec \
     sshwifty ${SSHWIFTY_ARGS};

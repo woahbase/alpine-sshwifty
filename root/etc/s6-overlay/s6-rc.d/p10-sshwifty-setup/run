@@ -20,12 +20,17 @@ _subst () {
 # ensure conf.json exists
 if [ ! -f "${SSHWIFTY_CONFIG}" ];
 then
-    _subst /defaults/sshwifty.conf.example.json ${SSHWIFTY_CONFIG};
+    _subst /defaults/sshwifty.conf.example.json "${SSHWIFTY_CONFIG}";
 fi;
 
 # fix permissions
-chown ${S6_USER:-alpine}:${PGID:-1000} \
-    $(dirname ${SSHWIFTY_CONFIG}) \
-    ${SSHWIFTY_CONFIG} \
-    ;
-chmod 600 ${SSHWIFTY_CONFIG};
+if [ -z "${SSHWIFTY_SKIP_PERMFIX}" ] \
+&& [ "X${EUID}" == "X0" ]; # requires root
+then
+    vecho "Fixing permissions.";
+    chown ${S6_USER:-alpine}:${PGID:-1000} \
+        $(dirname ${SSHWIFTY_CONFIG}) \
+        "${SSHWIFTY_CONFIG}" \
+        ;
+    chmod 600 "${SSHWIFTY_CONFIG}";
+fi;
