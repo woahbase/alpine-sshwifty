@@ -43,7 +43,7 @@
         "User": "root",
         "Encoding": "utf-8",
         "Private Key": "-----BEGIN RSA !!!Will be sent to client in plain-text!!! -END RSA PRI...\n",
-        "Authentication": "Private Key",
+        "Authentication": "Private Key,Password,Keyboard Interactive",
         "Fingerprint": "SHA256:bgO...."
       }
     },
